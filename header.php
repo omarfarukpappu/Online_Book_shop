@@ -30,9 +30,9 @@ if(isset($message)){
          <a href="home.php" class="logo">Bookly.</a>
 
          <nav class="navbar">
-            <a href="home.php">home</a>
-            <a href="about.php">about</a>
-            <a href="shop.php">shop</a>
+            <a href="display_users.php">list_User</a>
+            <a href="update_user.php">Update</a>
+            <a href="delete.php">shop</a>
             <a href="contact.php">contact</a>
             <a href="orders.php">orders</a>
          </nav>

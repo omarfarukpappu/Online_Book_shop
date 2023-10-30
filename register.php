@@ -3,7 +3,7 @@
 include 'config.php';
 
 function validatePassword($password) {
-    return (strlen($password) >= 8) && preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password);
+    return (strlen($password) >= 6) && preg_match('/[!@#$%^&*(),.?":{}|<>]/', $password);
 }
 
 
@@ -25,7 +25,7 @@ if(isset($_POST['submit'])){
     );
 
     if (!validatePassword($pass)) {
-        $_SESSION['message'][] = 'Password must be at least 8 characters long and contain at least one special character.';
+        $_SESSION['message'][] = 'Password must be at least 6 characters long and contain at least one special character.';
     } else {
         $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
 
@@ -68,13 +68,11 @@ if(isset($_POST['submit'])){
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style.css">
-
 </head>
 <body>
 
-
-
 <?php
+
 
 if(isset($_SESSION['message'])){
     foreach($_SESSION['message'] as $message){
@@ -85,20 +83,22 @@ if(isset($_SESSION['message'])){
         </div>
         ';
     }
-    
-    unset($_SESSION['message']);
+    // Uncomment the line below if you want to unset messages after displaying them
+    // unset($_SESSION['message']);
 }
-?>
-   
-<div class="form-container">
 
+// Initialize formData values
+$formDataName = isset($_SESSION['formData']['name']) ? $_SESSION['formData']['name'] : '';
+$formDataEmail = isset($_SESSION['formData']['email']) ? $_SESSION['formData']['email'] : '';
+?>
+
+<div class="form-container">
    <form action="" method="post">
       <h3>register now</h3>
-      <input type="text" name="name" placeholder="enter your name" value="<?php echo $_SESSION['formData']['name']; ?>" required class="box">
-      <input type="email" name="email" placeholder="enter your email" value="<?php echo $_SESSION['formData']['email']; ?>" required class="box">
+      <input type="text" name="name" placeholder="enter your name" value="<?php echo $formDataName; ?>" required class="box">
+      <input type="email" name="email" placeholder="enter your email" value="<?php echo $formDataEmail; ?>" required class="box">
       <input type="password" name="password" placeholder="enter your password" required class="box">
       <input type="password" name="cpassword" placeholder="confirm your password" required class="box">
-
 
       <select name="user_type" class="box">
          <option value="user">user</option>
@@ -107,8 +107,12 @@ if(isset($_SESSION['message'])){
       <input type="submit" name="submit" value="register now" class="btn">
       <p>already have an account? <a href="login.php">login now</a></p>
    </form>
-
 </div>
 
 </body>
 </html>
+
+<?php
+// Clear form data after displaying it
+unset($_SESSION['formData']);
+?>
