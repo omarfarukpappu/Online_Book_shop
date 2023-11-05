@@ -1,7 +1,7 @@
 <?php
 include 'config.php';
 
-// Retrieve user data from the database
+
 $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('Query failed');
 
 ?>
@@ -41,10 +41,11 @@ $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('Query faile
          padding: 12px;
          text-align: left;
          border-bottom: 1px solid #ddd;
+         
       }
 
       th {
-         background-color: #f2f2f2;
+         background-color:DodgerBlue;
       }
 
       h3 {
@@ -56,7 +57,7 @@ $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('Query faile
 <body>
 
    <div class="table-container">
-      <h3>Registered Users</h3>
+      <h3>Total Registered Users</h3>
       <table>
          <thead>
             <tr>
@@ -66,13 +67,13 @@ $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('Query faile
                <th>User Type</th>
                <th>Update</th>
                <th>Delete</th>
-               <th>data Inseart</th>
+               <th>Inseart Data</th>
 
             </tr>
          </thead>
          <tbody>
             <?php
-            // Display user data in the table
+        
             while ($row = mysqli_fetch_assoc($select_users)) {
                echo "<tr>";
                echo "<td>{$row['id']}</td>";

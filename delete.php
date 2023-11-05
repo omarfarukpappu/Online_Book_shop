@@ -1,16 +1,14 @@
-<!-- <?php
+ <?php
 include 'config.php';
 
-// Check if the 'id' parameter is set in the URL
 if (isset($_GET['id'])) {
-    // Sanitize and validate the user ID
     $user_id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 
     if ($user_id !== false && $user_id > 0) {
-        // Construct the delete query
+      
         $delete_query = "DELETE FROM `users` WHERE id = $user_id";
 
-        // Execute the delete query
+
         if (mysqli_query($conn, $delete_query)) {
             $message = "User data deleted successfully";
         } else {
@@ -23,10 +21,10 @@ if (isset($_GET['id'])) {
     $error_message = "User ID not provided";
 }
 
-// Redirect to display_users.php after deletion
+
 header("Location: display_users.php");
 exit();
-?> -->
+?> 
 <!DOCTYPE html>
 <html lang="en">
 <head>

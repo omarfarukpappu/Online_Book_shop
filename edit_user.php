@@ -1,13 +1,13 @@
 <?php
 include 'config.php';
 
-// Check if the 'id' parameter is set in the URL
+
 if (isset($_GET['id'])) {
-    // Sanitize and validate the user ID
+
     $user_id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 
     if ($user_id !== false && $user_id > 0) {
-        // Fetch user data based on ID
+   
         $select_query = "SELECT * FROM `users` WHERE id = $user_id";
         $result = mysqli_query($conn, $select_query);
 
@@ -21,28 +21,28 @@ if (isset($_GET['id'])) {
     }
 }
 
-// Check if the form is submitted for updating user data
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = mysqli_real_escape_string($conn, $_POST['id']);
     $newName = mysqli_real_escape_string($conn, $_POST['new_name']);
     $newEmail = mysqli_real_escape_string($conn, $_POST['new_email']);
     $newUserType = $_POST['new_user_type'];
 
-    // Update query
+
     $updateQuery = "UPDATE `users` SET name=?, email=?, user_type=? WHERE id=?";
     
-    // Use prepared statement to prevent SQL injection
+ 
     $stmt = mysqli_prepare($conn, $updateQuery);
     
-    // Bind parameters
+
     mysqli_stmt_bind_param($stmt, 'sssi', $newName, $newEmail, $newUserType, $id);
 
-    // Execute the update query
+
     if (mysqli_stmt_execute($stmt)) {
         echo "Data updated successfully";
         header('location: display_users.php');
         
-        // Fetch updated user data
+
         $result = mysqli_query($conn, "SELECT * FROM `users` WHERE id = $id");
 
         if ($result) {
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error updating data: " . mysqli_error($conn);
     }
 
-    // Close the statement
+  
     mysqli_stmt_close($stmt);
 }
 ?>

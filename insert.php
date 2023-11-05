@@ -14,24 +14,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirmPassword = mysqli_real_escape_string($conn, $_POST['confirm_password']);
     $user_type = $_POST['user_type'];
 
-    // Validate password
+  
     if (!validatePassword($password)) {
         $_SESSION['message'][] = 'Password must be at least 6 characters long and contain at least one special character.';
     } else {
-        // Check if user already exists
+    
         $select_users = mysqli_query($conn, "SELECT * FROM `users` WHERE email = '$email'") or die('query failed');
 
         if (mysqli_num_rows($select_users) > 0) {
             $_SESSION['message'][] = 'User already exists!';
         } else {
-            // Check if passwords match
+      
             if ($password != $confirmPassword) {
                 $_SESSION['message'][] = 'Confirm password not matched!';
             } else {
-                // Hash the password for security
+           
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-                // Insert user data
+                
                 $insertQuery = "INSERT INTO `users` (name, email, password, user_type) VALUES (?, ?, ?, ?)";
                 $stmt = mysqli_prepare($conn, $insertQuery);
 
@@ -50,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Store form data for repopulating the form in case of an error
     $_SESSION['formData'] = [
         'name' => $name,
         'email' => $email,
@@ -139,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         foreach ($_SESSION['message'] as $message) {
             echo '<p class="error-message">' . $message . '</p>';
         }
-        // Clear messages after displaying
+     
         unset($_SESSION['message']);
     }
     ?>
@@ -178,6 +177,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </html>
 
 <?php
-// Clear form data after displaying it
+
 unset($_SESSION['formData']);
 ?>
