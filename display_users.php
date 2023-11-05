@@ -64,6 +64,10 @@ $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('Query faile
                <th>Name</th>
                <th>Email</th>
                <th>User Type</th>
+               <th>Update</th>
+               <th>Delete</th>
+               <th>data Inseart</th>
+
             </tr>
          </thead>
          <tbody>
@@ -75,6 +79,10 @@ $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('Query faile
                echo "<td>{$row['name']}</td>";
                echo "<td>{$row['email']}</td>";
                echo "<td>{$row['user_type']}</td>";
+               echo "<td><a href='edit_user.php?id={$row['id']}' class='edit-button'>Update</a></td>";
+               echo "<td><a href='delete.php?id={$row['id']}' class='edit-button'>Delete</a></td>";
+               echo "<td><a href='insert.php?id={$row['id']}' class='edit-button'>inseart</a></td>";
+
                echo "</tr>";
             }
             ?>

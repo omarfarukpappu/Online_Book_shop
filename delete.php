@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 include 'config.php';
 
 // Check if the 'id' parameter is set in the URL
@@ -26,7 +26,7 @@ if (isset($_GET['id'])) {
 // Redirect to display_users.php after deletion
 header("Location: display_users.php");
 exit();
-?>
+?> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
