@@ -1,9 +1,29 @@
 <?php
 include 'config.php';
 
+// Define the number of records per page
+$recordsPerPage = 4;
 
-$select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('Query failed');
+// Determine the current page number
+if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+    $currentPage = intval($_GET['page']);
+} else {
+    $currentPage = 1;
+}
 
+// Calculate the offset for the query
+$offset = ($currentPage - 1) * $recordsPerPage;
+
+// Query to fetch records with pagination
+$select_users = mysqli_query($conn, "SELECT * FROM `users` LIMIT $offset, $recordsPerPage") or die('Query failed');
+
+// Query to count total records
+$countQuery = mysqli_query($conn, "SELECT COUNT(*) AS total FROM `users`");
+$row = mysqli_fetch_assoc($countQuery);
+$totalRecords = $row['total'];
+
+// Calculate total pages
+$totalPages = ceil($totalRecords / $recordsPerPage);
 ?>
 
 <!DOCTYPE html>
@@ -41,16 +61,36 @@ $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('Query faile
          padding: 12px;
          text-align: left;
          border-bottom: 1px solid #ddd;
-         
       }
 
       th {
-         background-color:DodgerBlue;
+         background-color: DodgerBlue;
+         color: white;
       }
 
       h3 {
          text-align: center;
          color: #333;
+      }
+
+      .pagination {
+         display: flex;
+         justify-content: center;
+         margin-top: 20px;
+      }
+
+      .pagination a {
+         padding: 10px;
+         margin: 0 5px;
+         text-decoration: none;
+         color: DodgerBlue;
+         border: 1px solid DodgerBlue;
+         border-radius: 4px;
+      }
+
+      .pagination a.active {
+         background-color: DodgerBlue;
+         color: white;
       }
    </style>
 </head>
@@ -68,12 +108,10 @@ $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('Query faile
                <th>Update</th>
                <th>Delete</th>
                <th>Inseart Data</th>
-
             </tr>
          </thead>
          <tbody>
             <?php
-        
             while ($row = mysqli_fetch_assoc($select_users)) {
                echo "<tr>";
                echo "<td>{$row['id']}</td>";
@@ -83,12 +121,19 @@ $select_users = mysqli_query($conn, "SELECT * FROM `users`") or die('Query faile
                echo "<td><a href='edit_user.php?id={$row['id']}' class='edit-button'>Update</a></td>";
                echo "<td><a href='delete.php?id={$row['id']}' class='edit-button'>Delete</a></td>";
                echo "<td><a href='insert.php?id={$row['id']}' class='edit-button'>inseart</a></td>";
-
                echo "</tr>";
             }
             ?>
          </tbody>
       </table>
+
+      <div class="pagination">
+         <?php
+         for ($i = 1; $i <= $totalPages; $i++) {
+            echo "<a href='display_users.php?page=$i' class='" . ($i == $currentPage ? 'active' : '') . "'>$i</a>";
+         }
+         ?>
+      </div>
    </div>
 
 </body>
