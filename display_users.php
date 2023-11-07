@@ -1,28 +1,27 @@
 <?php
 include 'config.php';
 
-// Define the number of records per page
+
 $recordsPerPage = 4;
 
-// Determine the current page number
+
 if (isset($_GET['page']) && is_numeric($_GET['page'])) {
     $currentPage = intval($_GET['page']);
 } else {
     $currentPage = 1;
 }
 
-// Calculate the offset for the query
+
 $offset = ($currentPage - 1) * $recordsPerPage;
 
-// Query to fetch records with pagination
+
 $select_users = mysqli_query($conn, "SELECT * FROM `users` LIMIT $offset, $recordsPerPage") or die('Query failed');
 
-// Query to count total records
+
 $countQuery = mysqli_query($conn, "SELECT COUNT(*) AS total FROM `users`");
 $row = mysqli_fetch_assoc($countQuery);
 $totalRecords = $row['total'];
 
-// Calculate total pages
 $totalPages = ceil($totalRecords / $recordsPerPage);
 ?>
 
