@@ -1,9 +1,7 @@
 <?php
 include 'config.php';
 
-
 $recordsPerPage = 4;
-
 
 if (isset($_GET['page']) && is_numeric($_GET['page'])) {
     $currentPage = intval($_GET['page']);
@@ -11,12 +9,9 @@ if (isset($_GET['page']) && is_numeric($_GET['page'])) {
     $currentPage = 1;
 }
 
-
 $offset = ($currentPage - 1) * $recordsPerPage;
 
-
 $select_users = mysqli_query($conn, "SELECT * FROM `users` LIMIT $offset, $recordsPerPage") or die('Query failed');
-
 
 $countQuery = mysqli_query($conn, "SELECT COUNT(*) AS total FROM `users`");
 $row = mysqli_fetch_assoc($countQuery);
@@ -100,6 +95,7 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
       <table>
          <thead>
             <tr>
+               <th>S.L</th>
                <th>ID</th>
                <th>Name</th>
                <th>Email</th>
@@ -111,8 +107,10 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
          </thead>
          <tbody>
             <?php
+            $serial = ($currentPage - 1) * $recordsPerPage + 1;
             while ($row = mysqli_fetch_assoc($select_users)) {
                echo "<tr>";
+               echo "<td>{$serial}</td>";
                echo "<td>{$row['id']}</td>";
                echo "<td>{$row['name']}</td>";
                echo "<td>{$row['email']}</td>";
@@ -121,6 +119,7 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
                echo "<td><a href='delete.php?id={$row['id']}' class='edit-button'>Delete</a></td>";
                echo "<td><a href='insert.php?id={$row['id']}' class='edit-button'>inseart</a></td>";
                echo "</tr>";
+               $serial++;
             }
             ?>
          </tbody>
