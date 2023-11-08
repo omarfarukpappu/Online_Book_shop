@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON Table Creation with Borders and Header Styles</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <style>
+        .json-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .json-table th, .json-table td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        /* Internal CSS for table header styles */
+        .json-table th {
+            background-color: #510ac4;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Placeholder for the table -->
+<div id="table-container"></div>
+
+<script>
+    // Sample JSON data with 5 columns 
+    var jsonData = {
+        "headers": ["Name", "Age", "City", "Occupation", "Salary"],
+        "data": [
+            ["John Doe", 25, "New York", "Engineer", 75000],
+            ["Jane Smith", 30, "San Francisco", "Designer", 80000],
+            ["Bob Johnson", 22, "Chicago", "Developer", 70000]
+        ]
+    };
+
+    // Function to create the table
+    function createJsonTable(data) {
+        // Create the table element
+        var table = $("<table>").addClass("json-table");
+
+        // Create the header row
+        var headerRow = $("<tr>");
+        $.each(data.headers, function(_, header) {
+            headerRow.append($("<th>").text(header));
+        });
+        table.append(headerRow);
+
+        // Create rows with data
+        $.each(data.data, function(_, rowData) {
+            var row = $("<tr>");
+            $.each(rowData, function(_, cellData) {
+                row.append($("<td>").text(cellData));
+            });
+            table.append(row);
+        });
+
+        // Append the table to the container
+        $("#table-container").append(table);
+    }
+
+    // Call the function with the sample JSON data
+    createJsonTable(jsonData);
+</script>
+
+</body>
+</html>
