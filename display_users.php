@@ -18,6 +18,7 @@ $row = mysqli_fetch_assoc($countQuery);
 $totalRecords = $row['total'];
 
 $totalPages = ceil($totalRecords / $recordsPerPage);
+
 ?>
 
 <!DOCTYPE html>
@@ -93,12 +94,16 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
    <div class="table-container">
       <h3>Total Registered Users</h3>
       <table>
+      <td>
+  </a>
+</td>
          <thead>
             <tr>
                <th>S.L</th>
                <th>ID</th>
                <th>Name</th>
                <th>Email</th>
+               <th>Picture</th>
                <th>User Type</th>
                <th>Update</th>
                <th>Delete</th>
@@ -114,6 +119,9 @@ $totalPages = ceil($totalRecords / $recordsPerPage);
                echo "<td>{$row['id']}</td>";
                echo "<td>{$row['name']}</td>";
                echo "<td>{$row['email']}</td>";
+               echo "<td> <a href='{$row['profile_pic']}'onclick='window.open(this.href,'width=100px, height=100px')'>
+               <img src='{$row['profile_pic']}' alt='Profile Pic' style='width: 70px; height: 70px;'></td>";
+             
                echo "<td>{$row['user_type']}</td>";
                echo "<td><a href='edit_user.php?id={$row['id']}' class='edit-button'>Update</a></td>";
                echo "<td><a href='delete.php?id={$row['id']}' class='edit-button'>Delete</a></td>";
